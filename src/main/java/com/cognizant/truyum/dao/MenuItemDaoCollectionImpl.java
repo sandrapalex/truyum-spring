@@ -1,81 +1,69 @@
 package com.cognizant.truyum.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.cognizant.truyum.model.MenuItem;
+import com.cognizant.truyum.util.DateUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.cognizant.truyum.model.MenuItem;
-
 @Component
-@ImportResource("classpath:beans.xml")
+@ImportResource("classpath:bean.xml")
 public class MenuItemDaoCollectionImpl implements MenuItemDao{
-	
+
 	@Autowired
-	//@Qualifier("menuItems")
-	private List<MenuItem> menuItemList;
-	
-	public MenuItemDaoCollectionImpl() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private ArrayList<MenuItem> menuItemList;
 
-	public List<MenuItem> getMenuItemList() {
+
+	public ArrayList<MenuItem> getMenuItemList() {
 		return menuItemList;
 	}
 
-	public void setMenuItemList(List<MenuItem> menuItemList) {
+	public void setMenuItemList(ArrayList<MenuItem> menuItemList) {
 		this.menuItemList = menuItemList;
 	}
 
-	public MenuItemDaoCollectionImpl(List<MenuItem> menuItemList) {
-		super();
-		this.menuItemList = menuItemList;
-	}
-
-	@Override
-	public List<MenuItem> getMenuItemListAdmin() {
+	public ArrayList<MenuItem> getMenuItemListAdmin(){
 		return menuItemList;
 	}
 
-	@Override
-	public List<MenuItem> getMenuItemListCustomer() {
-		List<MenuItem> menuItemListCus=new ArrayList<MenuItem>();
-		Date date=new Date();
-		for(MenuItem menuItem:menuItemList) {
-			if(menuItem.getDateOfLaunch().getTime()<=date.getTime() && menuItem.isActive()) {
-				menuItemListCus.add(menuItem);
+	public ArrayList<MenuItem> getMenuItemListCustomer() {
+		ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
+		DateUtil d = new DateUtil();
+		for(MenuItem item:menuItemList) {
+			if(item.isActive()==true &&(item.getDateOfLaunch().before(d.convertToDate("19/08/2019")))) {
+				menu.add(item);
 			}
 		}
-		return menuItemListCus;
+		return menu;
 	}
+	
+	@Override
+	public void modifyMenuItem(MenuItem menuItem) {
+		for(MenuItem item:menuItemList) {
+			if(item.getId()==(menuItem.getId())) {
+				item.setId(menuItem.getId());
+				item.setName(menuItem.getName());
+				item.setCategory(menuItem.getCategory());
+				item.setPrice(menuItem.getPrice());
+				item.setActive(menuItem.isActive());
+				item.setDateOfLaunch(menuItem.getDateOfLaunch());
+			}
+		}
+}
 
 	@Override
 	public MenuItem getMenuItem(long menuItemId) {
-		MenuItem item=null;
-		for(MenuItem menuItem: menuItemList) {
-			if(menuItemId==menuItem.getId()) {
-				item= menuItem;
+		MenuItem menu=null;
+		for(MenuItem item:menuItemList) {
+			if(item.getId()==menuItemId) {
+				menu=item;
+				break;
 			}
 		}
-		return item;
+		return menu;
 	}
-	
-	public void modifyMenuItem(MenuItem menuItem) {
-		for(MenuItem item: menuItemList) {
-			if(menuItem.getId()==item.getId()) {
-				item.setName(menuItem.getName());
-				item.setCategory(menuItem.getCategory());
-				item.setDateOfLaunch(menuItem.getDateOfLaunch());
-				item.setFreeDelivery(menuItem.isFreeDelivery());
-				item.setPrice(menuItem.getPrice());
-				item.setActive(menuItem.isActive());
-			}
-		}
-	}
-	
 }

@@ -1,52 +1,52 @@
 package com.cognizant.truyum.dao;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
+import java.util.*;
 import com.cognizant.truyum.model.MenuItem;
 import com.cognizant.truyum.util.DateUtil;
 
 public class MenuItemDaoCollectionImplTest {
-	
-	/*public static void testGetMenuItemListAdmin() throws ParseException {
-		MenuItemDaoCollectionImpl m=new MenuItemDaoCollectionImpl();
-		List<MenuItem> menuItems=m.getMenuItemListAdmin();
-		for(MenuItem menuItem:menuItems) {
-			System.out.println(menuItem.toString());
+
+	public static void main(String[] args) {
+		MenuItemDaoCollectionImplTest M = new MenuItemDaoCollectionImplTest();
+		System.out.println("For admin");
+		M.testGetMenuItemListAdmin();
+		System.out.println("For Customer");
+		M.testGetMenuItemListCustomer();
+		System.out.println("Modified");
+		M.testModifyMenuItem();
+
+	}
+
+	public void testGetMenuItemListAdmin() {
+
+		MenuItemDaoCollectionImpl menuItemDao = new MenuItemDaoCollectionImpl();
+		List<MenuItem> menuItemList = menuItemDao.getMenuItemListAdmin();
+		for (MenuItem m : menuItemList) {
+			System.out.println(m.toString());
 		}
 	}
-	
-	public static void testGetMenuItemListCustomer() throws ParseException {
-		MenuItemDaoCollectionImpl m=new MenuItemDaoCollectionImpl();
-		List<MenuItem> menuItems=m.getMenuItemListCustomer();
-		for(MenuItem menuItem:menuItems) {
-			System.out.println(menuItem.toString());
+
+	public void testGetMenuItemListCustomer() {
+
+		MenuItemDaoCollectionImpl menuItemDao = new MenuItemDaoCollectionImpl();
+		List<MenuItem> menuItemList = menuItemDao.getMenuItemListCustomer();
+		for (MenuItem m : menuItemList) {
+			System.out.println(m.toString());
 		}
 	}
-	
-	public static void testModifyMenuItem() throws ParseException {
-		MenuItem menuItem=new MenuItem(000002, "Cake", 80.00f, true, DateUtil.convertToDate("11/12/2019"), "Main Course", false);
-		MenuItemDaoCollectionImpl m=new MenuItemDaoCollectionImpl();
-		MenuItemDao menu=m;
-		MenuItemDao.modifyMenuItem(menuItem);
-		System.out.println("Modified MenuItem details are :" + menu.getMenuItem(000002));
+
+	public void testModifyMenuItem() {
+
+		MenuItem menuItem = new MenuItem(1, "Sandwich", (float) 99.00, true, DateUtil.convertToDate("15/03/2017"),
+				"Main Course", true);
+		MenuItemDaoCollectionImpl menuItemDaoImpl = new MenuItemDaoCollectionImpl();
+		MenuItemDao menuItemDao = menuItemDaoImpl;
+		menuItemDao.modifyMenuItem(menuItem);
+		System.out.println(menuItemDao.getMenuItem(1));
+
 	}
-	
+
 	public void testGetMenuItem() {
-		
+
 	}
-	
-	public static void main(String[] args) throws ParseException {
-		System.out.println("only for admin");
-		testGetMenuItemListAdmin();
-		System.out.println("only for customer");
-		testGetMenuItemListCustomer();
-		System.out.println("after modifying");
-		testModifyMenuItem();
-	}*/
 }

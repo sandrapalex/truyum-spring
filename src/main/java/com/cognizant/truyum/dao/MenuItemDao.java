@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.cognizant.truyum.model.MenuItem;
 
-@Component
 public interface MenuItemDao {
 
 	public List<MenuItem> getMenuItemListAdmin();
